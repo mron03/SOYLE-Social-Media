@@ -1,0 +1,207 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'favicon.png' %}" rel="icon" type="image/png">
+    <title>Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+
+<body>
+
+<header>
+    <div class="header_inner">
+        
+        <div class="right-side lg:pr-4">
+            
+                <!-- Notification -->
+
+            <a href="#" class="header-links-item">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none"><path d="M12 22a2.02 2.02 0 0 1-2.01-2h4a2.02 2.02 0 0 1-.15.78a2.042 2.042 0 0 1-1.44 1.18h-.047A1.922 1.922 0 0 1 12 22zm8-3H4v-2l2-1v-5.5a8.065 8.065 0 0 1 .924-4.06A4.654 4.654 0 0 1 10 4.18V2h4v2.18c2.579.614 4 2.858 4 6.32V16l2 1v2z" fill="currentColor"/></g></svg>
+            </a>
+            <div uk-drop="mode: click;offset: 4" class="header_dropdown">
+                <h4
+                    class="-mt-5 -mx-5 bg-gradient-to-t from-gray-100 to-gray-50 border-b font-bold px-6 py-3">
+                    Notification </h4>
+                <ul class="dropdown_scrollbar" data-simplebar>
+                    <li>
+                        <a href="#">
+                            <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="">
+                            </div>
+                            <div class="drop_content">
+                                <p> <strong class="text-link" >Taiye</strong>  
+                                    <span class="text-link"> is following you  </span>
+                                </p>
+                                <span class="time-ago"> 2 hours ago </span>
+                            </div>
+                        </a>
+                    </li>
+                    
+
+                </ul>
+                <a href="#" class="see-all">See all</a>
+            </div>
+
+            <!------------ Home Button ------------->
+            
+            <a href="/" class="header-links-item">
+                Home
+            </a>
+
+            <!-- profile -->
+
+            <a href="#">
+                <img src="{{user_profile.profileimg.url}}" class="header-avatar" alt="">
+            </a>
+            <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
+                <ul>
+                    <li><a href="profile/{{user_profile.user}}"> Profile </a> </li>
+                    <li><a href="/settings"> Account setting </a> </li>
+                    <li><a href="logout"> Log Out</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</header>
+
+<div class="container m-auto">
+
+    <div class="lg:flex justify-center lg:space-x-10 lg:space-y-0 space-y-5">
+
+        <!-- left sidebar-->
+        <div class="space-y-5 flex-shrink-0 lg:w-7/12">
+            <div class="bg-white  shadow-md rounded-md overflow-hidden">
+                
+
+                <div class="bg-gray-50  border-b border-gray-100 flex items-baseline justify-between py-4 px-6 ">
+                    <h2 class="font-semibold text-lg">Your Followings</h2>
+                </div>
+
+
+                <div class="divide-gray-300 divide-gray-50 divide-opacity-50 divide-y px-4 ">
+                    {% for following in followings%}
+                    
+
+                    <div class="flex items-center justify-between py-3">
+
+                        <div class="flex flex-1 items-center space-x-4">
+                            <a href="/profile/{{following.user}}">
+                                <img src="{{following.profileimg.url}}" class="bg-gray-200 rounded-full w-10 h-10">
+                            </a>
+                            <div class="flex flex-col">
+                                <a href="/profile/{{following.user}}">
+                                    <span class="block capitalize font-semibold"> {{following.user}} </span>
+                                </a>
+                                
+                                {% if last_message is not None %}
+                                    {% for key, value in last_message.items %}
+                                        {% if key == following.user.username %}
+                                            <a href="room/{{user_profile.user}}/{{following.user}}">
+                                                <span class="block capitalize text-sm"> {{value}} </span>
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+
+                            </div>
+                        </div>
+                        <input type="hidden" value="{{user_profile.user}}" name="follower">
+                        <input type="hidden" value="{{following.user}}" name="user">
+                        <a href="room/{{user_profile.user}}/{{following.user}}" class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 "><button type="submit">Send a Message</button></a>
+                    </div>
+
+                    
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>    
+
+        <!-- right sidebar-->
+        <!-- <div class="lg:w-5/12">
+
+            <div class="bg-white  shadow-md rounded-md overflow-hidden">
+                <form action="/refresh" method="POST">
+                {%csrf_token%}
+
+                <div class="bg-gray-50  border-b border-gray-100 flex items-baseline justify-between py-4 px-6 ">
+                    <h2 class="font-semibold text-lg">Users You Can Follow</h2>
+                    <button type="submit">Refresh</button>
+                </div>
+
+                </form>
+
+                <div class="divide-gray-300 divide-gray-50 divide-opacity-50 divide-y px-4 ">
+                    <form action="/follow" method="POST">
+                        {%csrf_token%}
+                    {% for suggestion_profile in suggestion_list %}
+                    <div class="flex items-center justify-between py-3">
+
+                        <div class="flex flex-1 items-center space-x-4">
+                            <a href="/profile/{{suggestion_profile.user}}">
+                                <img src="{{suggestion_profile.profileimg.url}}" class="bg-gray-200 rounded-full w-10 h-10">
+                            </a>
+                            <div class="flex flex-col">
+                                <span class="block capitalize font-semibold"> {{suggestion_profile.user}} </span>
+                                <span class="block capitalize text-sm"> 320k followers </span>
+                            </div>
+                        </div>
+                        <input type="hidden" value="{{user_profile.user}}" name="follower">
+                        <input type="hidden" value="{{suggestion_profile.user}}" name="user">
+                        <a href="#" class="border border-gray-200 font-semibold px-4 py-1 rounded-full hover:bg-pink-600 hover:text-white hover:border-pink-600 "><button type="submit">Follow</button></a>
+                        
+                    </div>
+                    {% endfor %}
+
+                    </form>
+                </div>
+
+            </div>
+
+            
+
+        </div> -->
+
+    </div>               
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+ <!-- Scripts
+    ================================================== -->
+    <script src="{% static 'assets/js/tippy.all.min.js' %}"></script>  
+    <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/uikit.js' %}"></script>
+    <script src="{% static 'assets/js/simplebar.js' %}"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+
+
+    <script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
+</body>
+
+
+</html>

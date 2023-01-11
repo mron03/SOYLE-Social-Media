@@ -1,0 +1,275 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'favicon.png' %}" rel="icon" type="image/png">
+    <title>Chat</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <style>
+        body {
+          margin: 0 auto;
+        }
+        
+        .container {
+        border: 2px solid #dedede;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        padding: 10px;
+        }
+        
+        .darker {
+          border-color: #ccc;
+          background-color: #ddd;
+        }
+  
+        .container::after {
+          content: "";
+          clear: both;
+          display: table;
+        }
+  
+        .container img {
+          float: left;
+          max-width: 60px;
+          width: 100%;
+          margin-right: 20px;
+          border-radius: 50%;
+        }
+  
+        .container img.right {
+          float: right;
+          margin-left: 20px;
+          margin-right:0;
+        }
+  
+        .time-right {
+          float: right;
+          color: #aaa;
+        }
+  
+        .time-left {
+          float: left;
+          color: #999;
+        }
+    </style>
+    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+</head>
+
+
+<body>
+
+<header>
+    <div class="header_inner">
+        
+        <div class="right-side lg:pr-4">
+
+                <!-- Notification -->
+
+            <a href="#" class="header-links-item">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none"><path d="M12 22a2.02 2.02 0 0 1-2.01-2h4a2.02 2.02 0 0 1-.15.78a2.042 2.042 0 0 1-1.44 1.18h-.047A1.922 1.922 0 0 1 12 22zm8-3H4v-2l2-1v-5.5a8.065 8.065 0 0 1 .924-4.06A4.654 4.654 0 0 1 10 4.18V2h4v2.18c2.579.614 4 2.858 4 6.32V16l2 1v2z" fill="currentColor"/></g></svg>
+            </a>
+            <div uk-drop="mode: click;offset: 4" class="header_dropdown">
+                <h4
+                    class="-mt-5 -mx-5 bg-gradient-to-t from-gray-100 to-gray-50 border-b font-bold px-6 py-3">
+                    Notification </h4>
+                <ul class="dropdown_scrollbar" data-simplebar>
+                    <li>
+                        <a href="#">
+                            <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="">
+                            </div>
+                            <div class="drop_content">
+                                <p> <strong class="text-link" >Taiye</strong>  
+                                    <span class="text-link"> is following you  </span>
+                                </p>
+                                <span class="time-ago"> 2 hours ago </span>
+                            </div>
+                        </a>
+                    </li>
+                    
+
+                </ul>
+                <a href="#" class="see-all">See all</a>
+            </div>
+
+
+            <!------------ Home Button ------------->
+            
+            <a href="/" class="header-links-item">
+                Home
+            </a>
+
+            <!-- profile -->
+
+            <a href="#">
+                <img src="{{user_profile.profileimg.url}}" class="header-avatar" alt="">
+            </a>
+            <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
+                <ul>
+                    <form action="/chat-profile" method="POST">
+                        {% csrf_token %}
+                    <li><button type="submit">Profile</button></li>
+                    <input type="hidden" value="{{user_profile.user}}" name="user" >
+                    </form>
+
+                    <li><a href="/settings"> Account setting </a> </li>
+                    <li><a href="logout"> Log Out</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</header>
+<br>
+<br>
+<br>
+
+
+<script>
+    $(document).ready(function(){
+    
+    setInterval(function(){
+        $.ajax({
+            type: 'GET',
+            url : "/getMessages/{{username}}/{{room}}",
+            success: function(response){
+                console.log(response);
+                $("#display").empty();
+                for (var key in response.messages)
+                {
+                    var temp="<div class='container darker'><b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
+                    $("#display").append(temp);
+                }
+            },
+            // error: function(response){
+            //     alert('An error occured')
+            // }
+        });
+    },2000);
+    })
+</script>
+
+
+<div class="container m-auto" style="width: 50%;">
+
+    <style>
+        input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        }
+    
+        input[type=submit] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        }
+    
+        input[type=submit]:hover {
+        background-color: #45a049;
+        }
+    
+       
+    </style>
+
+
+    <div class="bg-gray-50  border-b border-gray-100 flex items-baseline justify-between py-4 px-6 ">
+        <a href="/profile/{{room.user}}">
+        <img src="{{room.profileimg.url}}" class="header-avatar" alt="">
+        <h2 class="font-semibold text-lg">{{room.user}}</h2>
+        </a> 
+    </div>
+    <div id="display"></div>
+    
+    <div class="lg:flex justify-center lg:space-x-10 lg:space-y-0 space-y-5" >
+
+        <!-- left sidebar-->
+        <div class="space-y-5 flex-shrink-0 lg:w-7/12" style="width: 100%;">
+            <div class="bg-white  shadow-md rounded-md overflow-hidden" style="width: 100%; height: 100%;">
+        
+                <div class="divide-gray-300 divide-gray-50 divide-opacity-50 divide-y px-4">
+                    <form id="post-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="username" id="username" value="{{username}}"/>
+                        <input type="hidden" name="room_id" id="room_id" value="{{room_details.id}}"/>
+                        <input type="text" name="message" id="message" width="100px" />
+                        <input type="submit" value="Send">
+                    </form>
+                </div>
+
+            </div>
+        </div>    
+    </div>               
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+ <!-- Scripts
+    ================================================== -->
+    <script src="{% static 'assets/js/tippy.all.min.js' %}"></script>  
+    <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/uikit.js' %}"></script>
+    <script src="{% static 'assets/js/simplebar.js' %}"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+
+
+    <script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
+</body>
+
+
+<script type="text/javascript">
+    $(document).on('submit','#post-form',function(e){
+      e.preventDefault();
+  
+      $.ajax({
+        type:'POST',
+        url:'/send',
+        data:{
+            username:$('#username').val(),
+            room_id:$('#room_id').val(),
+            message:$('#message').val(),
+          csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function(data){
+              //alert(data)
+        }
+      });
+      document.getElementById('message').value = ''
+    });
+</script>
+
+
+</html>
