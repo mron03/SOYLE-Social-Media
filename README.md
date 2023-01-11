@@ -20,8 +20,6 @@ The presented above goals are accomplished, and future potential improvements ar
 * etc.
 
 ## WATCH THIS SHORT DEMO TO SEE THE PROJECT MADE SO FAR
-<a href="https://youtu.be/RZtIYiLhQdU" target="_blank>
-<img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fastana&psig=AOvVaw2-juXWf23VODkaJE9Iw4w5&ust=1673545391991000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCPD8vsWIwPwCFQAAAAAdAAAAABAE" alt="Watch" width="240" height="180" border="10" />
-</a>
+* https://youtu.be/RZtIYiLhQdU
 
 
