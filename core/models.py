@@ -39,6 +39,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     comment_creator = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    username = models.CharField(max_length=100, default='none')
     created_at = models.DateTimeField(default=datetime.now)
     value = models.TextField(max_length=1000)
 

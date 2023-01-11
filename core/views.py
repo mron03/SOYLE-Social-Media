@@ -241,7 +241,7 @@ def like_post(request):
     post.save()
     return redirect('/')
 
-
+@login_required(login_url='signin')
 def profile(request, pk):
     user_object = User.objects.get(username = pk)
     user_profile = Profile.objects.get(user = user_object)
@@ -366,6 +366,7 @@ def logout(request):
     auth.logout(request)
     return redirect('signin')
 
+@login_required(login_url='signin')
 def delete_post(request):
     post_id = request.GET.get('post_id')
     delete_post = Post.objects.get(id = post_id)
@@ -377,6 +378,7 @@ def delete_post(request):
 def get_item(dictionary, key):
     return dictionary.get(key)
 
+@login_required(login_url='signin')
 def followings(request):
     user_object = User.objects.get(username = request.user.username)
     user_profile = Profile.objects.get(user = user_object)
@@ -416,10 +418,12 @@ def followings(request):
 
     return render(request, 'followings.html', context)
 
+@login_required(login_url='signin')
 def chat_profile(request):
     user = request.POST['user']
     return redirect('/profile/' + user)
 
+@login_required(login_url='signin')
 def room(request, follower, user):
 
     u1 = User.objects.get(username = follower)
@@ -439,6 +443,7 @@ def room(request, follower, user):
     return redirect('/followings')
 
 
+@login_required(login_url='signin')
 def send(request):
     message = request.POST['message']
     username = request.POST['username']
@@ -449,7 +454,7 @@ def send(request):
 
     return HttpResponse('Message has been sent')
 
-
+@login_required(login_url='signin')
 def getMessages(request, username, room):
     u1 = User.objects.get(username = username)
     u2 = User.objects.get(username = room)
@@ -464,7 +469,7 @@ def getMessages(request, username, room):
     
     return JsonResponse({'messages' : list(messages.values())})
 
-
+@login_required(login_url='signin')
 def comment(request):
     if request.method == 'POST':
 
@@ -475,7 +480,8 @@ def comment(request):
         user = User.objects.get(username = username)
         user_profile = Profile.objects.get(user = user)
         post = Post.objects.get(id = post_id)
-        new_comment = Comment.objects.create(post = post, comment_creator = user_profile, value = value)
+        new_comment = Comment.objects.create(post = post, comment_creator = user_profile, value = value, username = username)
+        new_comment.save()
 
     return redirect('/')
 

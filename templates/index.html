@@ -28,8 +28,8 @@
         <div class="left-side">
             <!-- Logo -->
             <div id="logo" class="">
-                <a href="home.html">
-                    <b><h1 style="text-transform: uppercase;">Soyle</h1></b>
+                <a href="">
+                    <b><h1 style="text-transform: uppercase;">Söyle</h1></b>
                 </a>
             </div>
 
@@ -37,12 +37,10 @@
                 <i class="uil-bars"></i>
             </div>
             
-            <!-- <input type="text" name="username" placeholder="Search for username.."> &nbsp; &nbsp;
-            <button type="submit"><i class="fa fa-search fa-1x"></i>
-            </button> -->
+            
             &nbsp;&nbsp;&nbsp;
             <div class="header_search">
-                <input type="text" placeholder="Search for username..">
+                <input type="text" name="username" placeholder="Search for username..">
                 <div class="icon-search">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -323,14 +321,13 @@
                     <div class="border-t pt-4 space-y-4 " style="height: 85px;">
                         <div class="flex">
                             <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                <a href="/profile/{{comment.comment_creator.user}}">
-                                <img src="{{comment.comment_creator.profileimg.url}}" alt="" class="absolute h-full rounded-full w-full">
+                                <a href="/profile/{{comment.comment_creator}}">
+                                <img src="{{comment.comment_creator.profileimg.url}}" class="absolute h-full rounded-full w-full">
                                 <br>
                                 <br>
-                                <p>{{comment.comment_creator.user}}</p>
+                                <p>{{comment.username}}</p>
                                 </a>
                             </div>
-                        
                             <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20   ">
                                 <p class="leading-6">
                                     {{comment.value}}
@@ -341,6 +338,7 @@
                         <p style="font-size: 10px; font-style: italic; color: black;">{{comment.created_at.time}}</p>
                         <br>
                     </div>
+
                     {% endif %}
                     {% endfor %}
                     <form action="comment" method="POST">
