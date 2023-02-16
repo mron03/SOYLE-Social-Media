@@ -13,7 +13,7 @@ The most significant functions:
 * changing of personal data and security
 * improve minor inconvinences
 
-The presented above goals are accomplished, and future potential improvements are:
+The future potential improvements are:
 * button to disable comments
 * set up privacy, billings and other unimplemented account settings
 * notification list
