@@ -3,7 +3,7 @@
 ### A functional implementational example of social media using django frameworks and basic API structure
 
 
-This pet project was designed to better understand the concepts of django implementation and backend development. The basic structure is built along with a Youtube tutorial from freeCodeCamp.org. where basic page navigation, post uploading, sign up/sign in, profile page, and profile search functions where implemented.
+This pet project was designed to better understand the concepts of django implementation and backend development. 
 
 After completing the full tutorial, next goals were to implement major missed functionalities of every other social platforms such as: 
 * messaging
