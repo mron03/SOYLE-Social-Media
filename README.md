@@ -5,7 +5,7 @@
 
 This pet project was designed to better understand the concepts of django implementation and backend development. 
 
-After completing the full tutorial, next goals were to implement major missed functionalities of every other social platforms such as: 
+The most significant functions:
 * messaging
 * commenting
 * recent messages sent or received
