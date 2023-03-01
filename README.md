@@ -20,6 +20,6 @@ The future potential improvements are:
 * etc.
 
 ## WATCH THIS SHORT DEMO TO SEE THE PROJECT MADE SO FAR
-* https://youtu.be/RZtIYiLhQdU
+* https://youtu.be/EFJvFUgECd8
 
 
